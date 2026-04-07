@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>採用課題診断 | 母集団形成チェック</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #f8f9ff;
+      color: #1a2744;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    :root {
+      --navy: #1a2744;
+      --navy-light: #2d3f6b;
+      --accent: #4f7cff;
+      --coral: #ff6b6b;
+      --green: #06d6a0;
+      --yellow: #ffd166;
+      --bg: #f8f9ff;
+      --white: #ffffff;
+      --gray: #8892a4;
+      --border: #e4e8f4;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    header {
+      background: var(--navy);
+      padding: 18px 0;
+    }
+
+    header .container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      color: white;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      line-height: 1.3;
+    }
+
+    .logo small {
+      display: block;
+      font-size: 10px;
+      opacity: 0.5;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+    }
+
+    .logo span { color: var(--accent); }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 48px 0 64px;
+    }
+
+    .screen { display: none; width: 100%; }
+    .screen.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── START ── */
+    .start-hero { text-align: center; padding: 20px 0; }
+
+    .badge {
+      display: inline-block;
+      background: rgba(79,124,255,0.1);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 18px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+      letter-spacing: 0.1em;
+    }
+
+    .type-cards {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 44px;
+      justify-content: center;
+    }
+
+    .type-card {
+      flex: 1;
+      max-width: 160px;
+      background: white;
+      border-radius: 16px;
+      padding: 20px 12px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(26,39,68,0.07);
+    }
+
+    .type-card .tc-icon {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .type-card .tc-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+    .type-card .tc-sub {
+      font-size: 10px;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+
+    .start-hero h1 {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 20px;
+      color: var(--navy);
+    }
+
+    .start-hero h1 span { color: var(--accent); }
+
+    .start-hero p {
+      font-size: 15px;
+      color: var(--gray);
+      line-height: 1.9;
+      margin-bottom: 44px;
+    }
+
+    .meta-list {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 52px;
+    }
+
+    .meta-item { text-align: center; }
+    .meta-item .num { font-size: 32px; font-weight: 700; color: var(--navy); }
+    .meta-item .label { font-size: 12px; color: var(--gray); margin-top: 4px; }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 18px 60px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+      font-family: inherit;
+    }
+
+    .btn-primary:hover {
+      background: #3a66ee;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(79,124,255,0.3);
+    }
+
+    /* ── PROGRESS ── */
+    .progress-wrap { margin-bottom: 40px; }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .progress-label { font-size: 13px; color: var(--gray); }
+    .progress-count { font-size: 13px; font-weight: 600; color: var(--navy); }
+
+    .progress-bar {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #7c9fff);
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+
+    /* ── QUESTION CARD ── */
+    .question-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 4px 24px rgba(26,39,68,0.08);
+    }
+
+    .question-category {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .question-category i {
+      font-size: 13px;
+    }
+
+    .question-text {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.55;
+      margin-bottom: 32px;
+      color: var(--navy);
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      font-size: 15px;
+      color: var(--navy);
+      font-family: inherit;
+      line-height: 1.5;
+    }
+
+    .option-btn:hover {
+      border-color: var(--accent);
+      background: rgba(79,124,255,0.04);
+    }
+
+    .option-btn.selected {
+      border-color: var(--accent);
+      background: rgba(79,124,255,0.08);
+    }
+
+    .option-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray);
+      transition: all 0.2s;
+    }
+
+    .option-btn:hover .option-mark,
+    .option-btn.selected .option-mark {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+    }
+
+    .nav-wrap {
+      margin-top: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-back {
+      background: white;
+      border: 2px solid var(--border);
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-back:hover {
+      border-color: var(--navy);
+      background: var(--bg);
+    }
+
+    .btn-next {
+      background: var(--navy);
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .btn-next:hover:not(:disabled) {
+      background: var(--navy-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    /* ── RESULT ── */
+    .result-screen { text-align: center; }
+
+    .result-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+
+    .result-icon { font-size: 64px; margin-bottom: 16px; }
+
+    .result-type {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--navy);
+    }
+
+    .result-subtitle {
+      font-size: 15px;
+      color: var(--gray);
+      margin-bottom: 36px;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    .result-card {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      text-align: left;
+      box-shadow: 0 4px 24px rgba(26,39,68,0.08);
+      margin-bottom: 20px;
+    }
+
+    .result-card h3 {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .result-card p {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--navy);
+    }
+
+    .score-bar-item { margin-bottom: 18px; }
+    .score-bar-item:last-child { margin-bottom: 0; }
+
+    .score-bar-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .score-bar-label { font-weight: 600; color: var(--navy); }
+    .score-bar-value { color: var(--gray); }
+
+    .score-bar-bg {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease 0.3s;
+    }
+
+    .bar-market   { background: linear-gradient(90deg, #ff6b6b, #ff9a9a); }
+    .bar-mismatch { background: linear-gradient(90deg, #ffd166, #ffe599); }
+    .bar-appeal   { background: linear-gradient(90deg, #06d6a0, #4de8c2); }
+
+    .action-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+
+    .action-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--navy);
+    }
+
+    .action-list li::before {
+      content: '→';
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .cta-box {
+      background: var(--navy);
+      border-radius: 20px;
+      padding: 40px 36px;
+      text-align: center;
+      color: white;
+      margin-top: 32px;
+    }
+
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+
+    .cta-box p {
+      font-size: 14px;
+      opacity: 0.65;
+      margin-bottom: 28px;
+      line-height: 1.8;
+    }
+
+    .btn-cta {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 16px 52px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .btn-cta:hover {
+      background: #3a66ee;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(79,124,255,0.4);
+    }
+
+    .retry-btn {
+      display: block;
+      text-align: center;
+      color: var(--gray);
+      font-size: 13px;
+      margin-top: 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+
+    .retry-btn:hover { color: var(--navy); }
+
+    footer {
+      background: var(--navy);
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    footer p { color: rgba(255,255,255,0.35); font-size: 12px; }
+
+    @media (max-width: 480px) {
+      .question-card { padding: 28px 20px; }
+      .question-text { font-size: 17px; }
+      .start-hero h1 { font-size: 28px; }
+      .meta-list { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="logo-icon"><i class="fas fa-user-check"></i></div>
+    <div class="logo">
+      採用課題<span>診断</span>
+      <small>採用支援NISHAKU</small>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ── START ── -->
+    <div class="screen active" id="screen-start">
+      <div class="start-hero">
+        <div class="badge">無料 · 3分で完了</div>
+        <h1>採用がうまくいかないのには、<br><span>理由があります。</span></h1>
+        <p>
+          集まらない・選考で落とす・定着しない。<br>
+          10問で原因を特定し、改善のヒントをお伝えします。
+        </p>
+        <div class="type-cards">
+          <div class="type-card">
+            <div class="tc-icon">🌊</div>
+            <div class="tc-label">市場環境型</div>
+            <div class="tc-sub">職種・地域の難しさ</div>
+          </div>
+          <div class="type-card">
+            <div class="tc-icon">⚖️</div>
+            <div class="tc-label">条件ミスマッチ型</div>
+            <div class="tc-sub">条件と要件のずれ</div>
+          </div>
+          <div class="type-card">
+            <div class="tc-icon">📢</div>
+            <div class="tc-label">訴求不足型</div>
+            <div class="tc-sub">伝え方の課題</div>
+          </div>
+          <div class="type-card">
+            <div class="tc-icon">⚡</div>
+            <div class="tc-label">複合課題型</div>
+            <div class="tc-sub">複数の要因</div>
+          </div>
+        </div>
+        <div class="meta-list">
+          <div class="meta-item">
+            <div class="num">10</div>
+            <div class="label">問</div>
+          </div>
+          <div class="meta-item">
+            <div class="num">3</div>
+            <div class="label">分</div>
+          </div>
+          <div class="meta-item">
+            <div class="num">4</div>
+            <div class="label">タイプ</div>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="startDiagnosis()"><i class="fas fa-arrow-right"></i> 診断スタート</button>
+      </div>
+    </div>
+
+    <!-- ── QUESTION ── -->
+    <div class="screen" id="screen-question">
+      <div class="progress-wrap">
+        <div class="progress-header">
+          <span class="progress-label">診断の進行状況</span>
+          <span class="progress-count" id="progress-count">1 / 7</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 14%"></div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-category" id="q-category"></div>
+        <div class="question-text" id="q-text"></div>
+        <div class="options" id="q-options"></div>
+      </div>
+
+      <div class="nav-wrap">
+        <button class="btn-back" id="btn-back" onclick="goBack()"><i class="fas fa-chevron-left"></i> 戻る</button>
+        <button class="btn-next" id="btn-next" onclick="goNext()" disabled>次へ</button>
+      </div>
+    </div>
+
+    <!-- ── RESULT ── -->
+    <div class="screen" id="screen-result">
+      <div class="result-screen">
+        <div class="result-badge" id="result-badge"></div>
+        <div class="result-icon" id="result-icon"></div>
+        <div class="result-type" id="result-type"></div>
+        <div class="result-subtitle" id="result-subtitle"></div>
+
+        <div class="result-card">
+          <h3>スコア内訳</h3>
+          <div id="score-bars"></div>
+        </div>
+
+        <div class="result-card">
+          <h3>診断詳細</h3>
+          <p id="result-detail"></p>
+        </div>
+
+        <div class="result-card">
+          <h3>改善のヒント</h3>
+          <ul class="action-list" id="result-actions"></ul>
+        </div>
+
+        <div class="cta-box">
+          <h3>詳しく相談してみませんか？</h3>
+          <p>診断結果をもとに、採用のプロが<br>具体的な改善策を無料でご提案します。</p>
+          <button class="btn-cta">無料相談を申し込む</button>
+        </div>
+
+        <button class="retry-btn" onclick="restart()">もう一度診断する</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <p>© 2026 採用支援NISHAKU</p>
+</footer>
+
+<script>
+  const questions = [
+    {
+      category: "採用職種",
+      text: "採用している職種はどれに近いですか？",
+      axis: "market",
+      options: [
+        { text: "IT・エンジニア・DX系", score: 3 },
+        { text: "医療・介護・福祉系", score: 3 },
+        { text: "運輸・物流・ドライバー系", score: 3 },
+        { text: "建設・土木系", score: 3 },
+        { text: "飲食・サービス・販売系", score: 2 },
+        { text: "製造・工場・現場系", score: 2 },
+        { text: "営業系", score: 2 },
+        { text: "管理職・専門職（人事・経理・法務など）", score: 1 },
+        { text: "事務・一般職", score: 0 },
+      ]
+    },
+    {
+      category: "給与条件",
+      text: "給与水準は、同業他社と比べてどうですか？",
+      axis: "mismatch",
+      options: [
+        { text: "高い方だと思う", score: 0 },
+        { text: "同程度だと思う", score: 1 },
+        { text: "やや低いかもしれない", score: 2 },
+        { text: "低いと思う", score: 3 },
+      ]
+    },
+    {
+      category: "勤務条件",
+      text: "勤務時間・休日の柔軟性はありますか？",
+      axis: "mismatch",
+      options: [
+        { text: "テレワーク・時短・シフトなど柔軟に対応できる", score: 0 },
+        { text: "ある程度柔軟に対応できる", score: 1 },
+        { text: "あまり柔軟ではない", score: 2 },
+        { text: "固定・残業多め・休日出勤あり", score: 3 },
+      ]
+    },
+    {
+      category: "応募要件",
+      text: "応募に必要な経験・スキルのハードルは？",
+      axis: "mismatch",
+      options: [
+        { text: "未経験・学歴不問でOK", score: 0 },
+        { text: "多少の経験やスキルが必要", score: 1 },
+        { text: "専門的なスキル・資格が必要", score: 2 },
+        { text: "かなり高いハードルがある", score: 3 },
+      ]
+    },
+    {
+      category: "求人票の内容",
+      text: "求人票に会社の魅力や特徴を書いていますか？",
+      axis: "appeal",
+      options: [
+        { text: "強みや社風など詳しく書いている", score: 0 },
+        { text: "ある程度書いている", score: 1 },
+        { text: "あまり書いていない", score: 2 },
+        { text: "ほとんど書いていない・テンプレのまま", score: 3 },
+      ]
+    },
+    {
+      category: "求人媒体",
+      text: "求人の出し方として、当てはまるものはどれですか？",
+      axis: "appeal",
+      options: [
+        { text: "求職者のターゲットに合わせて媒体を使い分けている", score: 0 },
+        { text: "なんとなく以前から使っている媒体を継続している", score: 2 },
+        { text: "ハローワークのみ、または無料媒体だけ使っている", score: 2 },
+        { text: "エージェント任せで自社での発信はほとんどしていない", score: 3 },
+      ]
+    },
+    {
+      category: "応募状況",
+      text: "求人を出してから応募が来るまでどのくらいかかりますか？",
+      axis: "both",
+      options: [
+        { text: "1週間以内に複数来る", score: 0 },
+        { text: "2〜3週間で数件来る", score: 1 },
+        { text: "1ヶ月以上かかることが多い", score: 2 },
+        { text: "ほとんど応募が来ない", score: 3 },
+      ]
+    },
+    {
+      category: "選考プロセス",
+      text: "書類選考・面接の各ステップの通過率を把握していますか？",
+      axis: "appeal",
+      options: [
+        { text: "各ステップの数字を把握・分析している", score: 0 },
+        { text: "なんとなく感覚でわかっている", score: 1 },
+        { text: "あまり把握できていない", score: 2 },
+        { text: "ほとんど把握していない・考えたことがない", score: 3 },
+      ]
+    },
+    {
+      category: "入社後の定着",
+      text: "採用した方が入社後1年以内に退職するケースはありますか？",
+      axis: "mismatch",
+      options: [
+        { text: "ほとんどない・長期で活躍している人が多い", score: 0 },
+        { text: "たまにある", score: 1 },
+        { text: "よくある", score: 2 },
+        { text: "半数以上が1年以内に辞めている", score: 3 },
+      ]
+    },
+    {
+      category: "勤務地",
+      text: "勤務地周辺に、採用対象が重なる競合企業はありますか？",
+      axis: "market",
+      options: [
+        { text: "競合はほとんどない", score: 0 },
+        { text: "少しある", score: 1 },
+        { text: "同業他社が多く、求人が埋もれやすい", score: 2 },
+        { text: "大手・有名企業も近くにあり、条件面で競り負けることが多い", score: 3 },
+      ]
+    },
+  ];
+
+  let currentQ = 0;
+  let answers  = new Array(questions.length).fill(null);
+
+  // ── Screens ──────────────────────────────────────────────
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function startDiagnosis() {
+    currentQ = 0;
+    answers  = new Array(questions.length).fill(null);
+    showScreen('screen-question');
+    renderQuestion();
+  }
+
+  function restart() {
+    showScreen('screen-start');
+  }
+
+  // ── Questions ─────────────────────────────────────────────
+  const categoryIcons = {
+    '採用職種':     'fa-briefcase',
+    '給与条件':     'fa-yen-sign',
+    '勤務条件':     'fa-clock',
+    '応募要件':     'fa-clipboard-list',
+    '求人票の内容': 'fa-file-alt',
+    '求人媒体':     'fa-bullhorn',
+    '応募状況':     'fa-chart-bar',
+    '選考プロセス': 'fa-tasks',
+    '入社後の定着': 'fa-building',
+    '勤務地':       'fa-map-marker-alt',
+  };
+
+  function renderQuestion() {
+    const q     = questions[currentQ];
+    const total = questions.length;
+    const marks = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+
+    document.getElementById('progress-count').textContent = `${currentQ + 1} / ${total}`;
+    document.getElementById('progress-fill').style.width  = `${((currentQ + 1) / total) * 100}%`;
+
+    const icon = categoryIcons[q.category] || 'fa-circle';
+    document.getElementById('q-category').innerHTML =
+      `<i class="fas ${icon}"></i>${q.category}`;
+    document.getElementById('q-text').textContent = q.text;
+
+    const optionsEl = document.getElementById('q-options');
+    optionsEl.innerHTML = '';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn' + (answers[currentQ] === i ? ' selected' : '');
+      btn.innerHTML = `<span class="option-mark">${marks[i]}</span><span>${opt.text}</span>`;
+      btn.onclick   = () => selectOption(i);
+      optionsEl.appendChild(btn);
+    });
+
+    const isLast = currentQ === questions.length - 1;
+    document.getElementById('btn-next').textContent   = isLast ? '診断結果を見る' : '次へ';
+    document.getElementById('btn-next').disabled      = answers[currentQ] === null;
+    document.getElementById('btn-back').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+  }
+
+  function selectOption(index) {
+    answers[currentQ] = index;
+    document.querySelectorAll('.option-btn').forEach((btn, i) => {
+      btn.classList.toggle('selected', i === index);
+    });
+    document.getElementById('btn-next').disabled = false;
+  }
+
+  function goNext() {
+    if (answers[currentQ] === null) return;
+    if (currentQ < questions.length - 1) { currentQ++; renderQuestion(); }
+    else showResult();
+  }
+
+  function goBack() {
+    if (currentQ > 0) { currentQ--; renderQuestion(); }
+  }
+
+  // ── Result ────────────────────────────────────────────────
+  function showResult() {
+    const sc = { market: 0, mismatch: 0, appeal: 0 };
+    questions.forEach((q, i) => {
+      if (answers[i] === null) return;
+      const s = q.options[answers[i]].score;
+      if      (q.axis === 'market')   sc.market   += s;
+      else if (q.axis === 'mismatch') sc.mismatch += s;
+      else if (q.axis === 'appeal')   sc.appeal   += s;
+      else if (q.axis === 'both')     { sc.market += s; sc.appeal += s; }
+    });
+
+    const maxMarket   = 12;
+    const maxMismatch = 12;
+    const maxAppeal   = 12;
+
+    const rM = sc.market   / maxMarket;
+    const rC = sc.mismatch / maxMismatch;
+    const rA = sc.appeal   / maxAppeal;
+
+    const mHigh = rM >= 0.50;
+    const cHigh = rC >= 0.45;
+    const aHigh = rA >= 0.45;
+    const flags = [mHigh, cHigh, aHigh].filter(Boolean).length;
+
+    const types = {
+      composite: {
+        icon: '⚡', badge: '複数の要因が重なっています', badgeColor: '#ff6b6b',
+        type: '複合課題型',
+        subtitle: '複数の要因が重なって\n採用の各ステップで問題が起きています。',
+        detail: '採用がうまくいかない原因が複数の領域にわたっています。一つを改善しても他の課題が残るため、優先順位をつけながら総合的に見直すことが重要です。',
+        actions: ['最もスコアが高い課題を最優先に取り組む','条件の見直しと求人訴求を同時に改善する','採用戦略全体を専門家と一緒に再設計する'],
+      },
+      market: {
+        icon: '🌊', badge: '構造的な難しさがあります', badgeColor: '#ff6b6b',
+        type: '市場環境型',
+        subtitle: '採用市場そのものが\nタイトな職種・状況です。',
+        detail: '採用している職種自体が求人倍率が高く、応募者が集まりにくい職種であるため、同じ方法を続けても応募は増えにくい状況です。競合他社との差別化や採用チャネルの多様化が必要です。',
+        actions: ['リファラル採用（社員紹介）を仕組み化する','ダイレクトリクルーティングを活用する','「この会社だから働きたい」と思わせる訴求を強化する'],
+      },
+      mismatch: {
+        icon: '⚖️', badge: '条件と要件のバランスを確認', badgeColor: '#ffd166',
+        type: '条件ミスマッチ型',
+        subtitle: '出せる条件と\n求める人材がずれています。',
+        detail: '給与・勤務条件に対して求める人材のハードルが高くなっている可能性があります。「この条件でこのスキルの人は来ない」というミスマッチが起きています。',
+        actions: ['市場の給与水準と自社の条件を比較する','必須要件とあれば良い要件を整理し直す','条件を変えられない場合は育成前提の採用に切り替える'],
+      },
+      appeal: {
+        icon: '📢', badge: '伝え方に改善の余地があります', badgeColor: '#06d6a0',
+        type: '訴求不足型',
+        subtitle: '条件は良いのに\n求職者に届いていません。',
+        detail: '採用条件自体は問題ないにもかかわらず、求人票の内容や媒体の選び方によって求職者に届いていない可能性があります。伝え方を変えることで応募が大きく増える可能性があります。',
+        actions: ['求人票に会社の強み・雰囲気・魅力を具体的に書く','現在使っていない媒体やSNSでの発信を試す','社員の声やリアルな職場環境を見せる'],
+      },
+      good: {
+        icon: '✅', badge: '採用の基礎は整っています', badgeColor: '#4f7cff',
+        type: '環境整備型',
+        subtitle: '大きな課題は見当たりません。\n継続的な改善でさらに強化を。',
+        detail: '現時点では大きな課題は見当たりませんが、採用市場は常に変化しています。現状に満足せず、求人票の定期的なブラッシュアップや新しい採用チャネルの開拓を続けましょう。',
+        actions: ['定期的に求人票を見直し最新の情報に更新する','採用データ（応募数・選考通過率）を記録・分析する','採用ブランディングを強化して認知度を上げる'],
+      },
+    };
+
+    let key;
+    if (flags >= 2)                          key = 'composite';
+    else if (mHigh && !cHigh && !aHigh)      key = 'market';
+    else if (!mHigh && cHigh && !aHigh)      key = 'mismatch';
+    else if (!mHigh && !cHigh && aHigh)      key = 'appeal';
+    else                                     key = 'good';
+
+    const t = types[key];
+
+    document.getElementById('result-badge').textContent  = t.badge;
+    document.getElementById('result-badge').style.cssText =
+      `background:${t.badgeColor}20;color:${t.badgeColor};display:inline-block;padding:8px 20px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:.08em;margin-bottom:20px;`;
+    document.getElementById('result-icon').textContent    = t.icon;
+    document.getElementById('result-type').textContent    = t.type;
+    document.getElementById('result-subtitle').textContent = t.subtitle;
+    document.getElementById('result-detail').textContent  = t.detail;
+    document.getElementById('result-actions').innerHTML   =
+      t.actions.map(a => `<li>${a}</li>`).join('');
+
+    document.getElementById('score-bars').innerHTML = [
+      { label: '市場・職種の難しさ', value: rM, cls: 'bar-market'   },
+      { label: '条件ミスマッチ',     value: rC, cls: 'bar-mismatch' },
+      { label: '求人訴求力不足',     value: rA, cls: 'bar-appeal'   },
+    ].map(s => `
+      <div class="score-bar-item">
+        <div class="score-bar-header">
+          <span class="score-bar-label">${s.label}</span>
+          <span class="score-bar-value">${Math.round(s.value * 100)}%</span>
+        </div>
+        <div class="score-bar-bg">
+          <div class="score-bar-fill ${s.cls}" style="width:0" data-w="${Math.round(s.value*100)}%"></div>
+        </div>
+      </div>`).join('');
+
+    showScreen('screen-result');
+
+    // アニメーション
+    setTimeout(() => {
+      document.querySelectorAll('.score-bar-fill').forEach(el => {
+        el.style.width = el.dataset.w;
+      });
+    }, 150);
+  }
+</script>
+</body>
+</html>
