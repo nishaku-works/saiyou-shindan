@@ -587,7 +587,7 @@
         </div>
         <div class="meta-list">
           <div class="meta-item">
-            <div class="num">10</div>
+            <div class="num">11</div>
             <div class="label">問</div>
           </div>
           <div class="meta-item">
@@ -670,6 +670,19 @@
 
 <script>
   const questions = [
+    {
+      category: "従業員規模",
+      text: "現在の従業員数を教えてください。",
+      axis: "info",
+      options: [
+        { text: "1〜30名", score: 0 },
+        { text: "31〜50名", score: 0 },
+        { text: "51〜99名", score: 0 },
+        { text: "100〜199名", score: 0 },
+        { text: "200〜299名", score: 0 },
+        { text: "300名以上", score: 0 },
+      ]
+    },
     {
       category: "採用職種",
       text: "採用している職種はどれに近いですか？",
@@ -937,8 +950,10 @@
     else if (!mHigh && cHigh && !aHigh)      key = 'mismatch';
     else                                     key = 'appeal';
 
+    const employeeSize = answers[0] !== null ? questions[0].options[answers[0]].text : '未回答';
     gtag('event', 'shindan_complete', {
       'result_type': key,
+      'employee_size': employeeSize,
       'score_market':   Math.round(rM * 100),
       'score_mismatch': Math.round(rC * 100),
       'score_appeal':   Math.round(rA * 100),
