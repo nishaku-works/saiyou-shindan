@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>採用課題診断 | 母集団形成チェック</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L8RBHFMHKJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-L8RBHFMHKJ');
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -928,6 +937,13 @@
     else if (!mHigh && cHigh && !aHigh)      key = 'mismatch';
     else if (!mHigh && !cHigh && aHigh)      key = 'appeal';
     else                                     key = 'good';
+
+    gtag('event', 'shindan_complete', {
+      'result_type': key,
+      'score_market':   Math.round(rM * 100),
+      'score_mismatch': Math.round(rC * 100),
+      'score_appeal':   Math.round(rA * 100),
+    });
 
     const t = types[key];
 
