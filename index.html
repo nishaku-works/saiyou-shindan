@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>採用課題診断 | 母集団形成チェック</title>
+  <title>採用課題診断 | 今すぐわかる採用改善チェック</title>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-L8RBHFMHKJ"></script>
   <script>
@@ -558,10 +558,10 @@
     <div class="screen active" id="screen-start">
       <div class="start-hero">
         <div class="badge">無料 · 1分で完了</div>
-        <h1>採用がうまくいかないのには、<br><span>理由があります。</span></h1>
+        <h1>採用、なんとなく<br><span>続けていませんか？</span></h1>
         <p>
-          集まらない・選考で落とす・定着しない。<br>
-          10問で原因を特定し、改善のヒントをお伝えします。
+          採用がうまくいかない理由は、市場・条件・求人の伝え方のどこかにあります。<br>
+          1分で確認できます。
         </p>
         <div class="type-cards">
           <div class="type-card">
@@ -935,8 +935,7 @@
     if (flags >= 2)                          key = 'composite';
     else if (mHigh && !cHigh && !aHigh)      key = 'market';
     else if (!mHigh && cHigh && !aHigh)      key = 'mismatch';
-    else if (!mHigh && !cHigh && aHigh)      key = 'appeal';
-    else                                     key = 'good';
+    else                                     key = 'appeal';
 
     gtag('event', 'shindan_complete', {
       'result_type': key,
